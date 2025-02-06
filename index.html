@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Card</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="profile">
+        <header class="profile__header">
+            <div class="profile__highlight-wrapper">
+                <div class="profile__highlight">#11</div>
+                <span>Students</span>
+            </div>
+            <div class="profile__avatar">
+                <img src="images/me1.jpg" loading="lazy" alt="Aakash profile picture">
+            </div>
+        </header>
+
+        <div class="profile__name">
+            <h2>Aakash Subedi <img src="images/verified.png" alt="Verified Badge" width="20" height="20"></h2>
+            <p>Frontend Developer</p>
+        </div>
+
+        <ul class="social-links">
+            <li>
+                <a href="https://github.com/aakashsubedi" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile">
+                    <img src="images/github.png" alt="" width="40" height="40">
+                </a>
+            </li>
+            <li>
+                <a href="https://www.linkedin.com/in/aakashsubedi/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile">
+                    <img src="images/linkedin.png" alt="" width="40" height="40">
+                </a>
+            </li>
+            <li>
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram Profile">
+                    <img src="images/instagram.png" alt="" width="40" height="40">
+                </a>
+            </li>
+        </ul>
+
+        <main>
+            <nav class="tabs-wrapper">
+                <ul class="tabs" role="tablist">
+                    <li role="presentation">
+                        <a id="tab1" href="#about" role="tab" aria-selected="true" aria-controls="about-content" class="active">About Me</a>
+                    </li>
+                    <li role="presentation">
+                        <a id="tab2" href="#skills" role="tab" aria-selected="false" aria-controls="skills-content">Skills</a>
+                    </li>
+                    <li role="presentation">
+                        <a id="tab3" href="#projects" role="tab" aria-selected="false" aria-controls="projects-content">Projects</a>
+                    </li>
+                    <li role="presentation">
+                        <a id="tab4" href="#contact" role="tab" aria-selected="false" aria-controls="contact-content">Contact</a>
+                    </li>
+                    <li id="active-bg" aria-hidden="true"></li>
+                </ul>
+            </nav>
+
+            <div class="tab-contents">
+                <div id="about-content" class="tab-content tab-content--active" role="tabpanel" aria-labelledby="tab1">
+                    <p>Passionate Frontend Developer with experience in HTML, CSS, and JavaScript. I love creating beautiful and accessible web experiences.</p>
+                </div>
+                <div id="skills-content" class="tab-content" role="tabpanel" aria-labelledby="tab2">
+                    <ul class="skills-list">
+                        <li>HTML5 & CSS3</li>
+                        <li>JavaScript</li>
+                        <li>React.js</li>
+                        <li>Responsive Design</li>
+                        <li>UI/UX Principles</li>
+                    </ul>
+                </div>
+                <div id="projects-content" class="tab-content" role="tabpanel" aria-labelledby="tab3">
+                    <p>Check out my projects on GitHub! I specialize in creating responsive and interactive web developments.</p>
+                </div>
+                <div id="contact-content" class="tab-content" role="tabpanel" aria-labelledby="tab4">
+                    <p>Email: aakkashsubedi@gmail.com</p>
+                    <p>Let's connect and create something amazing together!</p>
+                </div>
+            </div>
+        </main>
+
+        <a href="#" class="btn btn--primary">Book a meeting</a>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const tabs = document.querySelectorAll(".tabs a[role='tab']");
+            const activeBg = document.getElementById("active-bg");
+            const contents = document.querySelectorAll(".tab-content");
+
+            function updateActiveTab(selectedTab) {
+                // Update tab states
+                tabs.forEach((tab) => {
+                    const isSelected = tab === selectedTab;
+                    tab.classList.toggle("active", isSelected);
+                    tab.setAttribute("aria-selected", isSelected);
+                });
+
+                // Move background
+                const tabIndex = Array.from(tabs).indexOf(selectedTab);
+                const tabWidth = selectedTab.offsetWidth;
+                const position = tabIndex * (tabWidth + parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--tabs-gap')));
+                activeBg.style.transform = `translateX(${position}px)`;
+
+                // Show corresponding content
+                const targetId = selectedTab.getAttribute("aria-controls");
+                contents.forEach(content => {
+                    content.classList.toggle("tab-content--active", content.id === targetId);
+                });
+            }
+
+            tabs.forEach(tab => {
+                tab.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    updateActiveTab(this);
+                });
+
+                // Keyboard navigation
+                tab.addEventListener("keydown", function (event) {
+                    if (event.key === "Enter" || event.key === " ") {
+                        event.preventDefault();
+                        updateActiveTab(this);
+                    }
+                });
+            });
+
+            // Set initial state
+            const activeTab = document.querySelector(".tabs a.active[role='tab']");
+            if (activeTab) {
+                updateActiveTab(activeTab);
+            }
+        });
+    </script>
+</body>
+</html>
